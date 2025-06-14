@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-// --- Data Structure for the Tarot Deck ---
+// --- Data Structure for the Tarot Deck (Corrected) ---
 const TAROT_DECK = [
   {
     id: 1,
@@ -43,43 +43,57 @@ const TAROT_DECK = [
   },
 ];
 
-// --- Types for our generated styles ---
-type CardStyle = { rotate: number; x: number; y: number };
-type ParticleStyle = {
-  left: string;
-  top: string;
-  duration: number;
-  delay: number;
-};
+// --- Custom Hook for Media Queries ---
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const listener = () => setMatches(media.matches);
+    listener(); // Set initial state
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [query]);
+
+  return matches;
+}
 
 export default function Home() {
   const [isRevealed, setIsRevealed] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
-
-  const [cardStyles, setCardStyles] = useState<CardStyle[]>([]);
-  const [particleStyles, setParticleStyles] = useState<ParticleStyle[]>([]);
+  const [cardStyles, setCardStyles] = useState<
+    { rotate: number; x: number; y: number }[]
+  >([]);
+  const [particleStyles, setParticleStyles] = useState<
+    { left: string; top: string; duration: number; delay: number }[]
+  >([]);
   const [isClient, setIsClient] = useState(false);
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     setIsClient(true);
-    // --- Performance Optimization: Reduced element counts ---
-    const generatedCardStyles = Array.from({ length: 5 }, () => ({
-      // Reduced from 8 to 5
+    const deckCount = isMobile ? 0 : 5; // No deck needed for mobile
+    const particleCount = isMobile ? 5 : 12;
+
+    const generatedCardStyles = Array.from({ length: deckCount }, () => ({
       rotate: (Math.random() - 0.5) * 15,
       x: (Math.random() - 0.5) * 10,
       y: (Math.random() - 0.5) * 10,
     }));
     setCardStyles(generatedCardStyles);
 
-    const generatedParticleStyles = Array.from({ length: 12 }, () => ({
-      // Reduced from 20 to 12
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      duration: 5 + Math.random() * 5,
-      delay: Math.random() * 5,
-    }));
+    const generatedParticleStyles = Array.from(
+      { length: particleCount },
+      () => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        duration: 5 + Math.random() * 5,
+        delay: Math.random() * 5,
+      }),
+    );
     setParticleStyles(generatedParticleStyles);
-  }, []);
+  }, [isMobile]);
 
   const handleDrawCard = () => {
     const randomCardId = Math.floor(Math.random() * TAROT_DECK.length) + 1;
@@ -97,7 +111,6 @@ export default function Home() {
 
   return (
     <div className="h-screen bg-[#11121C] text-neutral-300 flex flex-col relative overflow-hidden">
-      {/* Section 1: Title Area */}
       <div className="w-full text-center py-6 flex-shrink-0">
         <motion.h1
           className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400"
@@ -109,57 +122,75 @@ export default function Home() {
         </motion.h1>
       </div>
 
-      {/* Section 2: Main Content Area (Cards) */}
       <div className="flex-grow relative flex flex-col items-center justify-center p-4 overflow-y-auto">
-        {/* State 1: Stacked Deck */}
-        <AnimatePresence>
-          {!isRevealed && isClient && (
-            <motion.div
-              className="absolute w-[280px] h-[400px] cursor-pointer group"
-              onClick={handleDrawCard}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5 }}
-            >
-              {cardStyles.map((style, index) => (
-                <motion.div
-                  key={index}
-                  className="absolute inset-0 will-change-transform" // Performance hint
-                  style={{ zIndex: cardStyles.length - index }}
-                  initial={{ ...style }}
-                  whileHover={{ scale: 1.05, rotate: 0, x: 0, y: 0 }}
-                  exit={{
-                    x: (Math.random() - 0.5) * 1000,
-                    y: (Math.random() - 0.5) * 1000,
-                    rotate: (Math.random() - 0.5) * 360,
-                    opacity: 0,
-                  }}
-                  transition={{ duration: 0.7, ease: "circOut" }}
-                >
-                  <Image
-                    src="/svg/card-verse.svg"
-                    alt="Tarot deck"
-                    width={280}
-                    height={400}
-                    className="shadow-2xl shadow-black/50 -mt-[80px]" // More performant shadow
-                    priority
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <AnimatePresence mode="wait">
+          {!isRevealed && isClient ? (
+            isMobile ? (
+              // --- MOBILE: Single card, simple fade transition ---
+              <motion.div
+                key="mobile-verse"
+                className="cursor-pointer"
+                onClick={handleDrawCard}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Image
+                  src="/svg/card-verse.svg"
+                  alt="Tarot deck"
+                  width={280}
+                  height={400}
+                  className="shadow-2xl shadow-black/50"
+                  priority
+                />
+              </motion.div>
+            ) : (
+              // --- DESKTOP: Stacked deck, "spread" animation ---
+              <div
+                key="desktop-deck"
+                className="absolute w-[280px] h-[400px] cursor-pointer group"
+                onClick={handleDrawCard}
+              >
+                {cardStyles.map((style, index) => (
+                  <motion.div
+                    key={index}
+                    className="absolute inset-0 will-change-transform"
+                    style={{ zIndex: cardStyles.length - index }}
+                    initial={{ ...style, opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05, rotate: 0, x: 0, y: 0 }}
+                    exit={{
+                      x: (Math.random() - 0.5) * 1000,
+                      y: (Math.random() - 0.5) * 1000,
+                      rotate: (Math.random() - 0.5) * 360,
+                      opacity: 0,
+                    }}
+                    transition={{ duration: 0.7, ease: "circOut" }}
+                  >
+                    <Image
+                      src="/svg/card-verse.svg"
+                      alt="Tarot deck"
+                      width={280}
+                      height={400}
+                      className="shadow-2xl shadow-black/50"
+                      priority
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            )
+          ) : null}
 
-        {/* State 2 & 3: Revealed Card */}
-        <AnimatePresence>
           {isRevealed && currentCardData && (
             <motion.div
-              className="flex flex-col items-center gap-6 py-4 mt-[100px]" // Use gap for spacing
-              initial={{ opacity: 0, scale: 0.5 }}
+              key="revealed-card"
+              className={`flex flex-col items-center ${
+                isMobile ? "gap-6 py-4" : "w-full h-full justify-around"
+              }`}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-              transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
+              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+              transition={{ duration: 0.4, delay: isMobile ? 0 : 0.5 }}
             >
               <Image
                 src={currentCardData.image}
@@ -182,7 +213,6 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      {/* Floating particles */}
       {particleStyles.map((style, i) => (
         <motion.div
           key={i}
