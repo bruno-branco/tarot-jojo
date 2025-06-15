@@ -9,35 +9,35 @@ const TAROT_DECK = [
   {
     id: 1,
     name: "The Magician",
-    image: "/svg/card-1.svg",
+    image: "/png/card-1.png",
     description:
       "The Magician is the master of manifestation and resourcefulness. You have all the tools and power you need to turn your visions into reality. It's a sign to take action and apply your will to the world.",
   },
   {
     id: 2,
     name: "The Fool",
-    image: "/svg/card-2.svg",
+    image: "/png/card-2.png",
     description:
       "The Fool represents new beginnings, innocence, and pure spontaneity. Embrace the unknown and take a leap of faith into a new adventure. This is a time of unlimited potential and open roads.",
   },
   {
     id: 3,
     name: "The Emperor",
-    image: "/svg/card-3.svg",
+    image: "/png/card-3.png",
     description:
       "This card represents authority, structure, and control. It signifies a time for strategic thinking and disciplined action to achieve your goals. The Emperor encourages you to establish order and create a solid foundation for your future endeavors.",
   },
   {
     id: 4,
     name: "The High Priestess",
-    image: "/svg/card-4.svg",
+    image: "/png/card-4.png",
     description:
       "This card points to intuition, sacred knowledge, and the subconscious mind. It's a call to trust your inner voice and look beyond the obvious. Secrets may be revealed, and your intuition is your best guide.",
   },
   {
     id: 5,
     name: "The Sun",
-    image: "/svg/card-5.svg",
+    image: "/png/card-5.png",
     description:
       "A card of pure positivity, fun, and success. The Sun brings warmth and clarity, illuminating your path and promising joyful outcomes. It is one of the most uplifting cards in the deck.",
   },
@@ -137,7 +137,7 @@ export default function Home() {
                 transition={{ duration: 0.3 }}
               >
                 <Image
-                  src="/svg/card-verse.svg"
+                  src="/png/card-verse.png"
                   alt="Tarot deck"
                   width={280}
                   height={400}
@@ -168,7 +168,7 @@ export default function Home() {
                     transition={{ duration: 0.7, ease: "circOut" }}
                   >
                     <Image
-                      src="/svg/card-verse.svg"
+                      src="/png/card-verse.png"
                       alt="Tarot deck"
                       width={280}
                       height={400}
