@@ -8,38 +8,50 @@ import Image from "next/image";
 const TAROT_DECK = [
   {
     id: 1,
-    name: "The Magician",
+    name: "O Mago - Freddie Mercury",
     image: "/png/card-1.png",
-    description:
-      "The Magician is the master of manifestation and resourcefulness. You have all the tools and power you need to turn your visions into reality. It's a sign to take action and apply your will to the world.",
+    description: `
+O Mago representa a manifestação, o poder criativo e a capacidade de transformar ideias em realidade. Ele tem todos os elementos à sua disposição e sabe usá-los com maestria, como um verdadeiro alquimista do mundo real. É símbolo de carisma, talento e domínio técnico.
+
+Freddie Mercury foi exatamente isso: um mestre da criação. Sua presença de palco magnética, sua voz única e sua habilidade de unir performance teatral com composições poderosas o tornaram uma figura mágica na história do rock. Como o Mago, Freddie canalizava energia e emoção, transformando-as em arte. Ele tinha domínio sobre sua imagem, sua música e seu público — e por isso, representa com perfeição o arquétipo do Mago.,
+`,
   },
   {
     id: 2,
-    name: "The Fool",
+    name: "O Louco - Raul Seixas",
     image: "/png/card-2.png",
     description:
-      "The Fool represents new beginnings, innocence, and pure spontaneity. Embrace the unknown and take a leap of faith into a new adventure. This is a time of unlimited potential and open roads.",
+      "O Louco é a carta do início da jornada, do impulso criativo, da liberdade sem amarras e da coragem de ser diferente, mesmo que isso pareça insano aos olhos dos outros. Ele representa aquele que segue seu próprio caminho, mesmo que sem rumo claro, guiado apenas pelo desejo de viver intensamente. Raul Seixas traduz essa energia como ninguém. Conhecido como o “maluco beleza”, ele desafiou normas sociais e musicais com letras que misturavam filosofia, crítica social, misticismo e humor. Sua atitude provocadora, seu espírito livre e sua recusa em se encaixar nos padrões fazem dele a personificação perfeita do Louco — alguém que ousou seguir seu próprio caminho, custe o que custar.",
   },
   {
     id: 3,
-    name: "The Emperor",
+    name: "O Imperador – Elvis Presley",
     image: "/png/card-3.png",
-    description:
-      "This card represents authority, structure, and control. It signifies a time for strategic thinking and disciplined action to achieve your goals. The Emperor encourages you to establish order and create a solid foundation for your future endeavors.",
+    description: `
+O Imperador simboliza estrutura, liderança, autoridade e domínio sobre o mundo material. Ele representa a figura do pai, do rei, daquele que estabelece ordem e governa com presença firme. Está ligado ao poder terreno e à construção de uma base sólida.
+
+Elvis Presley, o “Rei do Rock”, é a própria figura imperial dentro da história da música. Com sua presença imponente, ele mudou o cenário cultural e estabeleceu uma nova era no entretenimento. Seu legado influenciou gerações, e sua imagem continua sendo sinônimo de poder, status e influência. Como Imperador, Elvis representa a autoridade conquistada pelo talento e pela inovação — um pilar inabalável no universo do rock.,
+`,
   },
   {
     id: 4,
-    name: "The High Priestess",
+    name: "A Sacerdotisa - Stevie Nicks",
     image: "/png/card-4.png",
-    description:
-      "This card points to intuition, sacred knowledge, and the subconscious mind. It's a call to trust your inner voice and look beyond the obvious. Secrets may be revealed, and your intuition is your best guide.",
+    description: `
+A Sacerdotisa é símbolo do mistério, da intuição e da sabedoria interior. Ela guarda os segredos do inconsciente e da espiritualidade, conectando o visível ao invisível. É uma figura enigmática, ligada à lua, à magia e ao poder feminino introspectivo.
+
+Stevie Nicks, com sua imagem mística e sua voz hipnótica, incorpora todas essas qualidades. Desde os figurinos esvoaçantes até as letras repletas de simbolismos e espiritualidade, Stevie sempre se apresentou como uma figura quase etérea. Ela representa o lado sensível, intuitivo e mágico do rock, sendo a Sacerdotisa perfeita: aquela que canta as emoções mais profundas com uma força silenciosa e enfeitiçante.
+`,
   },
   {
     id: 5,
-    name: "The Sun",
+    name: "A Imperatriz - Rita Lee",
     image: "/png/card-5.png",
-    description:
-      "A card of pure positivity, fun, and success. The Sun brings warmth and clarity, illuminating your path and promising joyful outcomes. It is one of the most uplifting cards in the deck.",
+    description: `
+A Imperatriz é a carta da criatividade fértil, da abundância, do amor, da natureza e da expressão do feminino em sua forma mais plena. Ela é mãe, artista, amante, criadora. Representa o florescimento das ideias e a força da mulher que cria mundos com sua sensibilidade.
+
+Rita Lee foi um furacão criativo que marcou gerações. Como Imperatriz, ela desafiou papéis de gênero, revolucionou a música brasileira com irreverência e inteligência, e foi pioneira em muitos sentidos. Ao mesmo tempo, mostrou seu lado doce, maternal e sensível — sem nunca deixar de ser livre. Rita encarna o poder feminino em toda sua complexidade, e por isso ocupa com maestria o trono da Imperatriz neste baralho.,
+`,
   },
 ];
 
@@ -110,10 +122,10 @@ export default function Home() {
     TAROT_DECK.find((card) => card.id === selectedCardId) || null;
 
   return (
-    <div className="h-screen bg-[#11121C] text-neutral-300 flex flex-col relative overflow-hidden">
+    <div className="h-screen bg-[#11121C] text-neutral-300 flex flex-col relative overflow-hidden mb-20">
       <div className="w-full text-center py-6 flex-shrink-0">
         <motion.h1
-          className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400"
+          className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 font-mostera"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -122,7 +134,7 @@ export default function Home() {
         </motion.h1>
       </div>
 
-      <div className="flex-grow relative flex flex-col items-center justify-center p-4 overflow-y-auto">
+      <div className="flex-grow relative flex flex-col items-center justify-center p-4 overflow-y-auto pb-8">
         <AnimatePresence mode="wait">
           {!isRevealed && isClient ? (
             isMobile ? (
@@ -199,14 +211,19 @@ export default function Home() {
                 height={460}
                 className="shadow-2xl shadow-black/50 flex-shrink-0"
               />
-              <p className="text-neutral-400 text-lg text-center max-w-md">
+
+              <p className="text-neutral-400 text-3xl text-center max-w-md mt-8 text-white font-bold">
+                {currentCardData.name}
+              </p>
+              <p className="text-neutral-400 text-lg text-center max-w-md mt-4">
                 {currentCardData.description}
               </p>
               <button
                 onClick={handleReset}
                 className="px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-lg hover:bg-purple-700 transition-colors flex-shrink-0"
+                style={{ marginTop: 20, marginBottom: 80 }}
               >
-                Draw Again
+                Tirar outra carta
               </button>
             </motion.div>
           )}
