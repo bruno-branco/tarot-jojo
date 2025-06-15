@@ -212,10 +212,10 @@ export default function Home() {
                 className="shadow-2xl shadow-black/50 flex-shrink-0"
               />
 
-              <p className="text-neutral-400 text-3xl text-center max-w-md mt-8 text-white font-bold">
+              <p className="text-3xl text-center max-w-md mt-8 text-white font-bold font-monas">
                 {currentCardData.name}
               </p>
-              <p className="text-neutral-400 text-lg text-center max-w-md mt-4">
+              <p className="text-neutral-400 text-lg text-center max-w-md mt-4 font-cormorant">
                 {currentCardData.description}
               </p>
               <button

@@ -34,3 +34,6 @@ body {
 .font-monas {
   font-family: var(--font-monas), sans-serif;
 }
+.font-cormorant {
+  font-family: var(--font-cormorant), sans-serif;
+}
