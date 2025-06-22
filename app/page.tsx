@@ -123,9 +123,11 @@ export default function Home() {
 
   return (
     <div className="h-screen bg-[#11121C] text-neutral-300 flex flex-col relative overflow-hidden mb-20">
-      <div className="w-full text-center py-6 flex-shrink-0">
+      <div
+        className={`w-full text-center py-6 flex-shrink-0 ${isRevealed && currentCardData ? "hidden" : null}`}
+      >
         <motion.h1
-          className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 font-mostera"
+          className={`text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 font-mostera`}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -196,7 +198,7 @@ export default function Home() {
           {isRevealed && currentCardData && (
             <motion.div
               key="revealed-card"
-              className={`flex flex-col items-center ${
+              className={`flex flex-col items-center mt-96 md:m-0 ${
                 isMobile ? "gap-6 py-4" : "w-full h-full justify-around"
               }`}
               initial={{ opacity: 0, scale: 0.9 }}
