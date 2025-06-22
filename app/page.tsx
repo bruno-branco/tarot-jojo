@@ -198,7 +198,7 @@ export default function Home() {
           {isRevealed && currentCardData && (
             <motion.div
               key="revealed-card"
-              className={`flex flex-col items-center mt-96 md:m-0 ${
+              className={`flex flex-col items-center mt-[500px] md:m-0 ${
                 isMobile ? "gap-6 py-4" : "w-full h-full justify-around"
               }`}
               initial={{ opacity: 0, scale: 0.9 }}
